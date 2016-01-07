@@ -24,6 +24,7 @@ enum Result<T> {
 
 struct ProfdataToCobertura {
     static let PathSeparator = "/"
+    static let DefaultOutputPath = "coverage.xml"
     static let ErrorDomain = "ProfdataToCobertura"
 }
 

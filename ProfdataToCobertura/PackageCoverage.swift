@@ -131,4 +131,49 @@ class PackageCoverage: Comparable {
         }
     }
 
+    func saveXML(args:LLVMCovArguments) {
+        let root = NSXMLElement(name: "coverage")
+
+        let xml = NSXMLDocument(rootElement: root)
+        xml.version = "1.0"
+        let dtd = NSXMLDTD()
+        dtd.name = "coverage"
+        dtd.systemID = "http://cobertura.sourceforge.net/xml/coverage-03.dtd"
+        xml.DTD = dtd
+
+        root.addAttributeWithName("line-rate", value: "123.456")
+
+        if let sourcePath = args.sourcePath {
+            let sourcesNode = root.addChildElementWithName("sources")
+            sourcesNode.addChildElementWithName("source", value: sourcePath)
+        }
+
+        let outputPath = args.outputPath ?? ProfdataToCobertura.DefaultOutputPath
+        if let xmlData = xml.XMLStringWithOptions(NSXMLNodePrettyPrint).dataUsingEncoding(NSUTF8StringEncoding) {
+            xmlData.writeToFile(outputPath, atomically: true)
+            print("written to \(outputPath)")
+        } else {
+            print("could not write to \(outputPath)")
+        }
+    }
+
+}
+
+extension NSXMLElement {
+    func addAttributeWithName(name:String, value:String) -> NSXMLNode {
+        let attribute = NSXMLNode.attributeWithName(name, stringValue: value) as! NSXMLNode
+        self.addAttribute(attribute)
+        return attribute
+    }
+
+    func addChildElementWithName(name:String, value:String? = nil) -> NSXMLElement {
+        var child:NSXMLElement!
+        if let value = value {
+            child = NSXMLNode.elementWithName(name, stringValue:value) as! NSXMLElement
+        } else {
+            child = NSXMLNode.elementWithName(name) as! NSXMLElement
+        }
+        self.addChild(child)
+        return child
+    }
 }
