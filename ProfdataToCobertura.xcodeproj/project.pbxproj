@@ -8,7 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		F80C21741C3C20CD00A4A237 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80C21731C3C20CD00A4A237 /* main.swift */; };
+		F8AE6E291C3DBB9900E12814 /* ProfdataToCoberturaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E281C3DBB9900E12814 /* ProfdataToCoberturaTests.swift */; };
+		F8AE6E2F1C3DBBB800E12814 /* FileCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E2E1C3DBBB800E12814 /* FileCoverage.swift */; };
+		F8AE6E311C3DBBBD00E12814 /* PackageCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */; };
+		F8AE6E331C3DBBC900E12814 /* ProfdataToCobertura.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */; };
+		F8AE6E351C3DBC8F00E12814 /* PackageCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E341C3DBC8F00E12814 /* PackageCoverageTests.swift */; };
+		F8AE6E371C3DBD2400E12814 /* FileCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E361C3DBD2400E12814 /* FileCoverageTests.swift */; };
+		F8AE6E3A1C3DC03100E12814 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80C21731C3C20CD00A4A237 /* main.swift */; };
+		F8AE6E3B1C3DC03100E12814 /* ProfdataToCobertura.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */; };
+		F8AE6E3C1C3DC03100E12814 /* PackageCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */; };
+		F8AE6E3D1C3DC03100E12814 /* FileCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E2E1C3DBBB800E12814 /* FileCoverage.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F8AE6E381C3DBFF700E12814 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F80C21681C3C20CD00A4A237 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F80C216F1C3C20CD00A4A237;
+			remoteInfo = ProfdataToCobertura;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		F80C216E1C3C20CD00A4A237 /* CopyFiles */ = {
@@ -25,10 +45,25 @@
 /* Begin PBXFileReference section */
 		F80C21701C3C20CD00A4A237 /* ProfdataToCobertura */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProfdataToCobertura; sourceTree = BUILT_PRODUCTS_DIR; };
 		F80C21731C3C20CD00A4A237 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F8AE6E261C3DBB9900E12814 /* ProfdataToCoberturaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProfdataToCoberturaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8AE6E281C3DBB9900E12814 /* ProfdataToCoberturaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfdataToCoberturaTests.swift; sourceTree = "<group>"; };
+		F8AE6E2A1C3DBB9900E12814 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8AE6E2E1C3DBBB800E12814 /* FileCoverage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCoverage.swift; sourceTree = "<group>"; };
+		F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageCoverage.swift; sourceTree = "<group>"; };
+		F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfdataToCobertura.swift; sourceTree = "<group>"; };
+		F8AE6E341C3DBC8F00E12814 /* PackageCoverageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageCoverageTests.swift; sourceTree = "<group>"; };
+		F8AE6E361C3DBD2400E12814 /* FileCoverageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCoverageTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F80C216D1C3C20CD00A4A237 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8AE6E231C3DBB9900E12814 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				F80C21721C3C20CD00A4A237 /* ProfdataToCobertura */,
+				F8AE6E271C3DBB9900E12814 /* ProfdataToCoberturaTests */,
 				F80C21711C3C20CD00A4A237 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				F80C21701C3C20CD00A4A237 /* ProfdataToCobertura */,
+				F8AE6E261C3DBB9900E12814 /* ProfdataToCoberturaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,8 +95,22 @@
 			isa = PBXGroup;
 			children = (
 				F80C21731C3C20CD00A4A237 /* main.swift */,
+				F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */,
+				F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */,
+				F8AE6E2E1C3DBBB800E12814 /* FileCoverage.swift */,
 			);
 			path = ProfdataToCobertura;
+			sourceTree = "<group>";
+		};
+		F8AE6E271C3DBB9900E12814 /* ProfdataToCoberturaTests */ = {
+			isa = PBXGroup;
+			children = (
+				F8AE6E281C3DBB9900E12814 /* ProfdataToCoberturaTests.swift */,
+				F8AE6E341C3DBC8F00E12814 /* PackageCoverageTests.swift */,
+				F8AE6E361C3DBD2400E12814 /* FileCoverageTests.swift */,
+				F8AE6E2A1C3DBB9900E12814 /* Info.plist */,
+			);
+			path = ProfdataToCoberturaTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -82,6 +133,24 @@
 			productReference = F80C21701C3C20CD00A4A237 /* ProfdataToCobertura */;
 			productType = "com.apple.product-type.tool";
 		};
+		F8AE6E251C3DBB9900E12814 /* ProfdataToCoberturaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8AE6E2D1C3DBB9900E12814 /* Build configuration list for PBXNativeTarget "ProfdataToCoberturaTests" */;
+			buildPhases = (
+				F8AE6E221C3DBB9900E12814 /* Sources */,
+				F8AE6E231C3DBB9900E12814 /* Frameworks */,
+				F8AE6E241C3DBB9900E12814 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F8AE6E391C3DBFF700E12814 /* PBXTargetDependency */,
+			);
+			name = ProfdataToCoberturaTests;
+			productName = ProfdataToCoberturaTests;
+			productReference = F8AE6E261C3DBB9900E12814 /* ProfdataToCoberturaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -93,6 +162,9 @@
 				ORGANIZATIONNAME = "Ivy Gulch";
 				TargetAttributes = {
 					F80C216F1C3C20CD00A4A237 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					F8AE6E251C3DBB9900E12814 = {
 						CreatedOnToolsVersion = 7.2;
 					};
 				};
@@ -110,20 +182,56 @@
 			projectRoot = "";
 			targets = (
 				F80C216F1C3C20CD00A4A237 /* ProfdataToCobertura */,
+				F8AE6E251C3DBB9900E12814 /* ProfdataToCoberturaTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F8AE6E241C3DBB9900E12814 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F80C216C1C3C20CD00A4A237 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8AE6E311C3DBBBD00E12814 /* PackageCoverage.swift in Sources */,
 				F80C21741C3C20CD00A4A237 /* main.swift in Sources */,
+				F8AE6E2F1C3DBBB800E12814 /* FileCoverage.swift in Sources */,
+				F8AE6E331C3DBBC900E12814 /* ProfdataToCobertura.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8AE6E221C3DBB9900E12814 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8AE6E3D1C3DC03100E12814 /* FileCoverage.swift in Sources */,
+				F8AE6E3C1C3DC03100E12814 /* PackageCoverage.swift in Sources */,
+				F8AE6E371C3DBD2400E12814 /* FileCoverageTests.swift in Sources */,
+				F8AE6E351C3DBC8F00E12814 /* PackageCoverageTests.swift in Sources */,
+				F8AE6E3A1C3DC03100E12814 /* main.swift in Sources */,
+				F8AE6E3B1C3DC03100E12814 /* ProfdataToCobertura.swift in Sources */,
+				F8AE6E291C3DBB9900E12814 /* ProfdataToCoberturaTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F8AE6E391C3DBFF700E12814 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F80C216F1C3C20CD00A4A237 /* ProfdataToCobertura */;
+			targetProxy = F8AE6E381C3DBFF700E12814 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F80C21751C3C20CD00A4A237 /* Debug */ = {
@@ -220,6 +328,28 @@
 			};
 			name = Release;
 		};
+		F8AE6E2B1C3DBB9900E12814 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ProfdataToCoberturaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.ProfdataToCoberturaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F8AE6E2C1C3DBB9900E12814 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ProfdataToCoberturaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.ProfdataToCoberturaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -239,6 +369,16 @@
 				F80C21791C3C20CD00A4A237 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8AE6E2D1C3DBB9900E12814 /* Build configuration list for PBXNativeTarget "ProfdataToCoberturaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8AE6E2B1C3DBB9900E12814 /* Debug */,
+				F8AE6E2C1C3DBB9900E12814 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
