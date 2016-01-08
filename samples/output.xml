@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-03.dtd">
 
-<coverage branch-rate="0.0" line-rate="0.369318" timestamp="473960864.137375" version="ProfdataToCobertura-0.1-prerelease">
+<coverage branch-rate="0.0" line-rate="0.369318" timestamp="473973326.279142" version="ProfdataToCobertura-0.1-prerelease">
     <sources>
         <source>/Users/dwsjoquist/ivygulch/projects/shared/TestCov</source>
     </sources>

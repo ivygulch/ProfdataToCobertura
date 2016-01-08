@@ -8,21 +8,41 @@
 
 import Foundation
 
+enum RunMode {
+    case Invalid
+    case LLVMCov
+    case InputFile
+}
+
 struct LLVMCovArguments {
-    let executablePath:String
-    let profdataPath:String
+    let binaryPath:String?
+    let profdataPath:String?
+    let inputFilePath:String?
     let sourcePath:String?
     let outputPath:String?
     let verbose:Bool
 
+    var runMode:RunMode {
+        get {
+            let haveLLVMCovParameters = (binaryPath != nil) && (profdataPath != nil)
+            let haveInputFileParameters = (inputFilePath != nil)
+            if haveLLVMCovParameters == haveInputFileParameters {
+                return .Invalid
+            } else if haveLLVMCovParameters {
+                return .LLVMCov
+            } else {
+                return .InputFile
+            }
+        }
+    }
+
     var description: String {
-        let sp = sourcePath ?? ""
-        let op = outputPath ?? ""
         return "LLVMCovArguments"
-            + "\n\texecutablePath=\(executablePath)"
-            + "\n\tprofdataPath=\(profdataPath)"
-            + "\n\tsourcePath=\(sp)"
-            + "\n\toutputPath=\(op)"
+            + "\n\trunMode=\(runMode)"
+            + "\n\tbinaryPath=\(binaryPath ?? "")"
+            + "\n\tprofdataPath=\(profdataPath ?? "")"
+            + "\n\tsourcePath=\(sourcePath ?? "")"
+            + "\n\toutputPath=\(outputPath ?? "")"
             + "\n\tverbose=\(verbose)"
     }
 }
@@ -40,53 +60,57 @@ struct ProfdataToCobertura {
 
 class Runner {
 
+    typealias NextArgFunction = (value:String) -> Void
+
     func showSyntax() {
-        print("ProfdataToCobertura <pathToAppBinary> <pathToProfdataFile> [-verbose] [-source <sourceRootPath>] [-output outputFilepath]")
+        print("ProfdataToCobertura [-inputFile pathToLLVMCovOutput] [-llvm-cov <pathToAppBinary> <pathToProfdataFile>] [-verbose] [-source <sourceRootPath>] [-output outputFilepath]")
+        print("   either '-inputFile' or '-llvm-cov' option is required, but not both")
         exit(1)
     }
 
     func parseCommandLine() -> LLVMCovArguments? {
         var errors:[String] = []
-        var executablePath:String?
+        var binaryPath:String?
         var profdataPath:String?
+        var inputFilePath:String?
         var sourcePath:String?
         var outputPath:String?
         var verbose = false
-        var nextArg:((value:String)->Void)?
+        var nextArgs:[NextArgFunction] = []
         var lastArg:String?
         var args = Process.arguments
         args.removeFirst()
         for arg in args {
-            if nextArg != nil {
+            if nextArgs.count > 0 {
                 if arg.hasPrefix("-") {
                     errors.append("Did not expect option \(arg) here")
+                    nextArgs = []
                 } else {
-                    nextArg!(value:arg)
+                    let nextArg = nextArgs.removeFirst()
+                    nextArg(value:arg)
                 }
-                nextArg = nil
+            } else if arg == "-llvm-cov" {
+                nextArgs = []
+                nextArgs.append({ anArg in binaryPath = anArg })
+                nextArgs.append({ anArg in profdataPath = anArg })
+            } else if arg == "-inputFile" {
+                nextArgs = []
+                nextArgs.append({ anArg in inputFilePath = anArg })
             } else if arg == "-source" {
-                nextArg = {
-                    anArg in
-                    sourcePath = anArg
-                }
+                nextArgs = []
+                nextArgs.append({ anArg in sourcePath = anArg })
             } else if arg == "-output" {
-                nextArg = {
-                    anArg in
-                    outputPath = anArg
-                }
+                nextArgs = []
+                nextArgs.append({ anArg in outputPath = anArg })
             } else if arg == "-verbose" {
                 verbose = true
-            } else if executablePath == nil {
-                executablePath = arg
-            } else if profdataPath == nil {
-                profdataPath = arg
             } else {
                 errors.append("Unknown argument: \(arg)")
             }
             lastArg = arg
         }
-        if nextArg != nil {
-            errors.append("Missing value for \(lastArg)")
+        if nextArgs.count > 0 {
+            errors.append("Missing value\(nextArgs.count > 1 ? "s" : "") after \(lastArg)")
         }
         if errors.count > 0 {
             for error in errors {
@@ -94,19 +118,22 @@ class Runner {
             }
             return nil
         }
-        guard let executablePath2 = executablePath else { return nil }
-        guard let profdataPath2 = profdataPath else { return nil }
-        return LLVMCovArguments(executablePath:executablePath2, profdataPath:profdataPath2, sourcePath:sourcePath, outputPath:outputPath, verbose:verbose)
+        let result = LLVMCovArguments(binaryPath:binaryPath, profdataPath:profdataPath, inputFilePath:inputFilePath, sourcePath:sourcePath, outputPath:outputPath, verbose:verbose)
+        if verbose {
+            print(result.description)
+        }
+        return result
     }
 
-    func runLLVMCovWithArgs(args:LLVMCovArguments) -> Result<String> {
+    func runLLVMCovWithBinary(binaryPath:String, profdataPath:String, verbose:Bool) -> Result<String> {
         let task = NSTask()
         task.launchPath = "/usr/bin/xcrun"
         task.arguments = [
             "llvm-cov",
             "show",
-            args.executablePath,
-            "-instr-profile=\(args.profdataPath)"
+            binaryPath,
+            "-instr-profile",
+            profdataPath
         ]
 
         let outputPipe = NSPipe()
@@ -114,8 +141,7 @@ class Runner {
         task.standardOutput = outputPipe
         task.standardError = errorPipe
 
-        if args.verbose {
-            print("\(args.description)")
+        if verbose {
             print("xcrun \(task.arguments!.joinWithSeparator(" "))")
         }
         task.launch()
@@ -130,30 +156,43 @@ class Runner {
 
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let outputString = NSString(data: outputData, encoding: NSUTF8StringEncoding) as! String
-        if args.verbose {
+        if verbose {
             print("success with \(outputString.characters.count) of output")
         }
         return Result.Success(outputString)
     }
 
-    func run() -> (String, LLVMCovArguments)? {
+    func getLLVMCovOutput() -> (String, LLVMCovArguments)? {
         if let llvmCovArgs = parseCommandLine() {
-            let result = runLLVMCovWithArgs(llvmCovArgs)
-            switch result {
-            case .Success(let outputString):
-                return (outputString,llvmCovArgs)
-            case .Error(let error):
-                if let errors = (error as NSError).userInfo["errors"] as? [String] where errors.count > 0 {
-                    for error in errors {
-                        print(error)
+
+            switch (llvmCovArgs.runMode) {
+            case .Invalid:
+                showSyntax()
+            case .LLVMCov:
+                let result = runLLVMCovWithBinary(llvmCovArgs.binaryPath!, profdataPath: llvmCovArgs.profdataPath!, verbose: llvmCovArgs.verbose)
+                switch result {
+                case .Success(let outputString):
+                    return (outputString,llvmCovArgs)
+                case .Error(let error):
+                    if let errors = (error as NSError).userInfo["errors"] as? [String] where errors.count > 0 {
+                        for error in errors {
+                            print(error)
+                        }
+                    } else {
+                        print("An error occured: \(error)")
                     }
-                } else {
-                    print("An error occured: \(error)")
                 }
+            case .InputFile:
+                if let data = NSData(contentsOfFile: llvmCovArgs.inputFilePath!) {
+                    if let outputString = NSString(data:data, encoding: NSUTF8StringEncoding) as? String {
+                        return (outputString,llvmCovArgs)
+                    }
+                }
+                print("Could not read inputFile: \(llvmCovArgs.inputFilePath!)")
             }
         }
         showSyntax()
         return nil
     }
-
+    
 }

@@ -10,7 +10,7 @@ import Foundation
 
 func main()  {
     let runner = Runner()
-    if let (outputString, args) = runner.run() {
+    if let (outputString, args) = runner.getLLVMCovOutput() {
         let summaryCoverage = outputString.parseLLVMCovOutput(args)
         summaryCoverage.saveXML(args)
     }
