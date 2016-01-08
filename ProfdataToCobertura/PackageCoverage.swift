@@ -28,35 +28,40 @@ func <(lhs: PackageCoverage, rhs: PackageCoverage) -> Bool {
 
 class PackageCoverage: Comparable {
     let pathComponents:[String]
-    let files:[FileCoverage]
+    let classes:[ClassCoverage]
     var packages:[PackageCoverage] = []
     var path:String {
         return pathComponents.joinWithSeparator(ProfdataToCobertura.PathSeparator)
     }
 
-    init(pathComponents:[String], files:[FileCoverage]) {
+    var lineCount:Int {
+        return classes.reduce(0) {$0 + $1.lineCount} +  packages.reduce(0) {$0 + $1.lineCount}
+    }
+    var totalLineHitCount:Int {
+        return classes.reduce(0) {$0 + $1.totalLineHitCount} +  packages.reduce(0) {$0 + $1.totalLineHitCount}
+    }
+    var lineRate:Float {
+        return lineCount > 0 ? Float(totalLineHitCount) / Float(lineCount) : 0.0
+    }
+    var branchRate:Float { return 0.0 }
+    var complexity:Float { return 0.0 }
+
+    init(pathComponents:[String], classes:[ClassCoverage]) {
         self.pathComponents = pathComponents
-        self.files = files
+        self.classes = classes
     }
 
-    init(files:[FileCoverage]) {
-        let rootPackage = PackageCoverage.toPackageTree(files)
-        self.pathComponents = rootPackage.pathComponents
-        self.files = rootPackage.files
-        self.packages = rootPackage.packages
-    }
-
-    private class func toPackageTree(files:[FileCoverage]) -> PackageCoverage {
-        var flatPackages = PackageCoverage.toFlatPackages(files)
+    class func toPackageTree(classes:[ClassCoverage]) -> PackageCoverage {
+        var flatPackages = PackageCoverage.toFlatPackages(classes)
         if flatPackages.count == 0 {
-            return PackageCoverage(pathComponents: [], files: []) // no files
+            return PackageCoverage(pathComponents: [], classes: []) // no classes
         }
 
         // insert any empty packages from root of "" to first package in list
         while flatPackages[0].pathComponents != [] {
             var parentPathComponents = flatPackages[0].pathComponents
             parentPathComponents.removeLast()
-            flatPackages.insert(PackageCoverage(pathComponents:parentPathComponents, files:[]), atIndex:0)
+            flatPackages.insert(PackageCoverage(pathComponents:parentPathComponents, classes:[]), atIndex:0)
         }
 
         var rootPackage:PackageCoverage?
@@ -89,7 +94,7 @@ class PackageCoverage: Comparable {
             if let package = matchingChildren.first {
                 currentPackage = package
             } else {
-                let package = PackageCoverage(pathComponents:currentPathComponent, files:[])
+                let package = PackageCoverage(pathComponents:currentPathComponent, classes:[])
                 currentPackage.packages.append(package)
                 currentPackage = package
             }
@@ -97,83 +102,46 @@ class PackageCoverage: Comparable {
         currentPackage.packages.append(child)
     }
 
-    private class func toFlatPackages(files:[FileCoverage]) -> [PackageCoverage] {
-        var filesXref:[String:[FileCoverage]] = [:]
+    class func toFlatPackages(classes:[ClassCoverage]) -> [PackageCoverage] {
+        var classesXref:[String:[ClassCoverage]] = [:]
         var filePackageNames:[String] = []
-        for file in files {
+        for file in classes {
             let filePackagePath = file.pathComponents.joinWithSeparator(ProfdataToCobertura.PathSeparator)
-            if var packageFiles = filesXref[filePackagePath] {
-                packageFiles.append(file)
-                filesXref[filePackagePath] = packageFiles
+            if var packageClasses = classesXref[filePackagePath] {
+                packageClasses.append(file)
+                classesXref[filePackagePath] = packageClasses
             } else {
                 filePackageNames.append(filePackagePath)
-                filesXref[filePackagePath] = [file]
+                classesXref[filePackagePath] = [file]
             }
         }
 
         var result:[PackageCoverage] = []
         for filePackageName in filePackageNames {
-            let packageFiles = filesXref[filePackageName]!
-            let firstFile = packageFiles.first!
-            result.append(PackageCoverage(pathComponents:firstFile.pathComponents, files:packageFiles))
+            let packageClasses = classesXref[filePackageName]!
+            let firstFile = packageClasses.first!
+            result.append(PackageCoverage(pathComponents:firstFile.pathComponents, classes:packageClasses))
         }
 
         return result
     }
 
-    func debug(margin:String) {
-        print("\(margin)p=\(path), fc=\(files.count)")
-        for file in files {
-            print("\(margin)      file=\(file.path)")
-        }
-        for child in packages {
-            child.debug(margin+"  ")
-        }
-    }
+    func appendXML(packagesElement:NSXMLElement) {
 
-    func saveXML(args:LLVMCovArguments) {
-        let root = NSXMLElement(name: "coverage")
+// <package branch-rate="0.136363636364" complexity="0.0" line-rate="0.307692307692" name=".Users.Shared.Jenkins.Home.jobs.ASDA.workspace.asda">
 
-        let xml = NSXMLDocument(rootElement: root)
-        xml.version = "1.0"
-        let dtd = NSXMLDTD()
-        dtd.name = "coverage"
-        dtd.systemID = "http://cobertura.sourceforge.net/xml/coverage-03.dtd"
-        xml.DTD = dtd
+        let packageElement = packagesElement.addChildElementWithName("package")
+        packageElement.addAttributeWithName("branch-rate", value: "\(branchRate)")
+        packageElement.addAttributeWithName("complexity", value: "\(complexity)")
+        packageElement.addAttributeWithName("line-rate", value: "\(lineRate)")
+        packageElement.addAttributeWithName("name", value: "\(path)")
 
-        root.addAttributeWithName("line-rate", value: "123.456")
-
-        if let sourcePath = args.sourcePath {
-            let sourcesNode = root.addChildElementWithName("sources")
-            sourcesNode.addChildElementWithName("source", value: sourcePath)
-        }
-
-        let outputPath = args.outputPath ?? ProfdataToCobertura.DefaultOutputPath
-        if let xmlData = xml.XMLStringWithOptions(NSXMLNodePrettyPrint).dataUsingEncoding(NSUTF8StringEncoding) {
-            xmlData.writeToFile(outputPath, atomically: true)
-            print("written to \(outputPath)")
-        } else {
-            print("could not write to \(outputPath)")
+        if self.classes.count > 0 {
+            let classesElement = packageElement.addChildElementWithName("classes")
+            for clazz in self.classes {
+                clazz.appendXML(classesElement)
+            }
         }
     }
 
-}
-
-extension NSXMLElement {
-    func addAttributeWithName(name:String, value:String) -> NSXMLNode {
-        let attribute = NSXMLNode.attributeWithName(name, stringValue: value) as! NSXMLNode
-        self.addAttribute(attribute)
-        return attribute
-    }
-
-    func addChildElementWithName(name:String, value:String? = nil) -> NSXMLElement {
-        var child:NSXMLElement!
-        if let value = value {
-            child = NSXMLNode.elementWithName(name, stringValue:value) as! NSXMLElement
-        } else {
-            child = NSXMLNode.elementWithName(name) as! NSXMLElement
-        }
-        self.addChild(child)
-        return child
-    }
 }

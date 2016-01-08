@@ -1,5 +1,5 @@
 //
-//  FileCoverageTests.swift
+//  ClassCoverageTests.swift
 //  ProfdataToCobertura
 //
 //  Created by Douglas Sjoquist on 1/6/16.
@@ -9,52 +9,56 @@
 import XCTest
 @testable import ProfdataToCobertura
 
-class FileCoverageTests: XCTestCase {
+class ClassCoverageTests: XCTestCase {
 
     func testMultipleRelativePathComponent() {
-        let fileCoverage = FileCoverage(path:"a/b/c", lines:[])
-        XCTAssertEqual(["a","b"], fileCoverage.pathComponents)
-        XCTAssertEqual("c", fileCoverage.filename)
+        let classCoverage = ClassCoverage(path:"a/b/c", lines:[])
+        XCTAssertEqual("a/b/c", classCoverage.path)
+        XCTAssertEqual(["a","b"], classCoverage.pathComponents)
+        XCTAssertEqual("c", classCoverage.filename)
     }
 
     func testMultipleFullPathComponent() {
-        let fileCoverage = FileCoverage(path:"/a/b/c", lines:[])
-        XCTAssertEqual(["a","b"], fileCoverage.pathComponents)
-        XCTAssertEqual("c", fileCoverage.filename)
+        let classCoverage = ClassCoverage(path:"/a/b/c", lines:[])
+        XCTAssertEqual("/a/b/c", classCoverage.path)
+        XCTAssertEqual(["a","b"], classCoverage.pathComponents)
+        XCTAssertEqual("c", classCoverage.filename)
     }
 
     func testSingleRelativePathComponent() {
-        let fileCoverage = FileCoverage(path:"a", lines:[])
-        XCTAssertEqual([], fileCoverage.pathComponents)
-        XCTAssertEqual("a", fileCoverage.filename)
+        let classCoverage = ClassCoverage(path:"a", lines:[])
+        XCTAssertEqual("a", classCoverage.path)
+        XCTAssertEqual([], classCoverage.pathComponents)
+        XCTAssertEqual("a", classCoverage.filename)
     }
 
     func testSingleFullPathComponent() {
-        let fileCoverage = FileCoverage(path:"/a", lines:[])
-        XCTAssertEqual([], fileCoverage.pathComponents)
-        XCTAssertEqual("a", fileCoverage.filename)
+        let classCoverage = ClassCoverage(path:"/a", lines:[])
+        XCTAssertEqual("/a", classCoverage.path)
+        XCTAssertEqual([], classCoverage.pathComponents)
+        XCTAssertEqual("a", classCoverage.filename)
     }
 
     func testEmptyPathComponent() {
-        let fileCoverage = FileCoverage(path:"", lines:[])
-        XCTAssertEqual([], fileCoverage.pathComponents)
-        XCTAssertNil(fileCoverage.filename)
+        let classCoverage = ClassCoverage(path:"", lines:[])
+        XCTAssertEqual([], classCoverage.pathComponents)
+        XCTAssertNil(classCoverage.filename)
     }
 
     func testSort() {
-        let fc_a = FileCoverage(path:"/a", lines:[])
-        let fc_a_b = FileCoverage(path:"/a/b", lines:[])
-        let fc_a_b_c = FileCoverage(path:"/a/b/c", lines:[])
-        let fc_d = FileCoverage(path:"/d", lines:[])
-        let fc_d_e_f = FileCoverage(path:"/d/e/f", lines:[])
-        let fileCoverages = [
+        let fc_a = ClassCoverage(path:"/a", lines:[])
+        let fc_a_b = ClassCoverage(path:"/a/b", lines:[])
+        let fc_a_b_c = ClassCoverage(path:"/a/b/c", lines:[])
+        let fc_d = ClassCoverage(path:"/d", lines:[])
+        let fc_d_e_f = ClassCoverage(path:"/d/e/f", lines:[])
+        let classCoverages = [
             fc_d,
             fc_a_b,
             fc_a,
             fc_d_e_f,
             fc_a_b_c
         ]
-        let sorted = fileCoverages.sort()
+        let sorted = classCoverages.sort()
         XCTAssertEqual([fc_a,fc_a_b,fc_a_b_c,fc_d,fc_d_e_f], sorted)
     }
 

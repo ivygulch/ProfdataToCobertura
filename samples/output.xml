@@ -1,0 +1,131 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-03.dtd">
+
+<coverage branch-rate="0.0" line-rate="0.369318" timestamp="473956808.82903" version="ProfdataToCobertura-0.1-prerelease">
+    <sources>
+        <source>/Users/dwsjoquist/ivygulch/projects/shared/TestCov</source>
+    </sources>
+    <packages>
+        <package branch-rate="0.0" complexity="0.0" line-rate="0.377049" name="TestCov">
+            <classes>
+                <class branch-rate="0.0" complexity="0.0" line-rate="0.125" filename="TestCov/AppDelegate.m" name="AppDelegate.m">
+                    <lines>
+                        <line branch="false" hits="1" number="16"></line>
+                        <line branch="false" hits="1" number="17"></line>
+                        <line branch="false" hits="1" number="18"></line>
+                        <line branch="false" hits="0" number="20"></line>
+                        <line branch="false" hits="0" number="21"></line>
+                    </lines>
+                </class>
+                <class branch-rate="0.0" complexity="0.0" line-rate="0.475" filename="TestCov/ViewController.m" name="ViewController.m">
+                    <lines>
+                        <line branch="false" hits="1" number="17"></line>
+                        <line branch="false" hits="1" number="18"></line>
+                        <line branch="false" hits="1" number="19"></line>
+                        <line branch="false" hits="1" number="20"></line>
+                        <line branch="false" hits="1" number="21"></line>
+                        <line branch="false" hits="1" number="23"></line>
+                        <line branch="false" hits="1" number="24"></line>
+                        <line branch="false" hits="1" number="25"></line>
+                        <line branch="false" hits="1" number="26"></line>
+                        <line branch="false" hits="1" number="27"></line>
+                        <line branch="false" hits="1" number="28"></line>
+                        <line branch="false" hits="1" number="29"></line>
+                        <line branch="false" hits="4" number="31"></line>
+                        <line branch="false" hits="4" number="32"></line>
+                        <line branch="false" hits="4" number="33"></line>
+                        <line branch="false" hits="3" number="34"></line>
+                        <line branch="false" hits="1" number="35"></line>
+                        <line branch="false" hits="1" number="36"></line>
+                        <line branch="false" hits="1" number="37"></line>
+                        <line branch="false" hits="1" number="38"></line>
+                        <line branch="false" hits="4" number="39"></line>
+                        <line branch="false" hits="3" number="41"></line>
+                        <line branch="false" hits="3" number="42"></line>
+                        <line branch="false" hits="3" number="43"></line>
+                        <line branch="false" hits="2" number="44"></line>
+                        <line branch="false" hits="2" number="45"></line>
+                        <line branch="false" hits="1" number="46"></line>
+                        <line branch="false" hits="1" number="47"></line>
+                        <line branch="false" hits="1" number="48"></line>
+                        <line branch="false" hits="0" number="49"></line>
+                        <line branch="false" hits="0" number="50"></line>
+                        <line branch="false" hits="0" number="51"></line>
+                        <line branch="false" hits="0" number="52"></line>
+                        <line branch="false" hits="3" number="53"></line>
+                        <line branch="false" hits="1" number="55"></line>
+                        <line branch="false" hits="1" number="56"></line>
+                        <line branch="false" hits="1" number="57"></line>
+                        <line branch="false" hits="0" number="58"></line>
+                        <line branch="false" hits="0" number="59"></line>
+                        <line branch="false" hits="0" number="60"></line>
+                        <line branch="false" hits="0" number="61"></line>
+                        <line branch="false" hits="0" number="62"></line>
+                        <line branch="false" hits="0" number="63"></line>
+                        <line branch="false" hits="1" number="64"></line>
+                        <line branch="false" hits="1" number="65"></line>
+                        <line branch="false" hits="1" number="66"></line>
+                        <line branch="false" hits="0" number="67"></line>
+                        <line branch="false" hits="0" number="68"></line>
+                        <line branch="false" hits="0" number="69"></line>
+                        <line branch="false" hits="0" number="70"></line>
+                        <line branch="false" hits="0" number="71"></line>
+                        <line branch="false" hits="0" number="72"></line>
+                        <line branch="false" hits="0" number="73"></line>
+                        <line branch="false" hits="0" number="74"></line>
+                        <line branch="false" hits="0" number="75"></line>
+                        <line branch="false" hits="1" number="76"></line>
+                        <line branch="false" hits="1" number="77"></line>
+                    </lines>
+                </class>
+                <class branch-rate="0.0" complexity="0.0" line-rate="0.277778" filename="TestCov/main.m" name="main.m">
+                    <lines>
+                        <line branch="false" hits="1" number="12"></line>
+                        <line branch="false" hits="1" number="13"></line>
+                        <line branch="false" hits="1" number="14"></line>
+                        <line branch="false" hits="1" number="15"></line>
+                        <line branch="false" hits="1" number="16"></line>
+                    </lines>
+                </class>
+            </classes>
+        </package>
+        <package branch-rate="0.0" complexity="0.0" line-rate="0.321429" name="TestCov/SubDir1">
+            <classes>
+                <class branch-rate="0.0" complexity="0.0" line-rate="0.321429" filename="TestCov/SubDir1/MyClass.swift" name="MyClass.swift">
+                    <lines>
+                        <line branch="false" hits="1" number="13"></line>
+                        <line branch="false" hits="1" number="14"></line>
+                        <line branch="false" hits="1" number="15"></line>
+                        <line branch="false" hits="1" number="16"></line>
+                        <line branch="false" hits="1" number="18"></line>
+                        <line branch="false" hits="1" number="19"></line>
+                        <line branch="false" hits="1" number="20"></line>
+                        <line branch="false" hits="1" number="21"></line>
+                        <line branch="false" hits="1" number="22"></line>
+                        <line branch="false" hits="0" number="24"></line>
+                        <line branch="false" hits="0" number="25"></line>
+                        <line branch="false" hits="0" number="26"></line>
+                    </lines>
+                </class>
+            </classes>
+        </package>
+        <package branch-rate="0.0" complexity="0.0" line-rate="0.384615" name="TestCov/SubDir1/SubDir2">
+            <classes>
+                <class branch-rate="0.0" complexity="0.0" line-rate="0.384615" filename="TestCov/SubDir1/SubDir2/MyClass2.swift" name="MyClass2.swift">
+                    <lines>
+                        <line branch="false" hits="2" number="13"></line>
+                        <line branch="false" hits="2" number="14"></line>
+                        <line branch="false" hits="2" number="15"></line>
+                        <line branch="false" hits="2" number="16"></line>
+                        <line branch="false" hits="3" number="18"></line>
+                        <line branch="false" hits="3" number="19"></line>
+                        <line branch="false" hits="3" number="20"></line>
+                        <line branch="false" hits="1" number="22"></line>
+                        <line branch="false" hits="1" number="23"></line>
+                        <line branch="false" hits="1" number="24"></line>
+                    </lines>
+                </class>
+            </classes>
+        </package>
+    </packages>
+</coverage>

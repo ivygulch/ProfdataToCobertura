@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 struct LLVMCovArguments {
     let executablePath:String
     let profdataPath:String

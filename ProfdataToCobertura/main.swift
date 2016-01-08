@@ -11,8 +11,8 @@ import Foundation
 func main()  {
     let runner = Runner()
     if let (outputString, args) = runner.run() {
-        let rootPackage = outputString.parseLLVMCovOutput(args)
-        rootPackage.saveXML(args)
+        let summaryCoverage = outputString.parseLLVMCovOutput(args)
+        summaryCoverage.saveXML(args)
     }
 }
 

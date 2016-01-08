@@ -8,16 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		F80C21741C3C20CD00A4A237 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80C21731C3C20CD00A4A237 /* main.swift */; };
+		F89027301C3F0C7800A5290E /* XMLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F890272F1C3F0C7800A5290E /* XMLExtensions.swift */; };
+		F89027351C3FFE2B00A5290E /* SummaryCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D398801C3EFF99006A50AF /* SummaryCoverage.swift */; };
+		F89027361C3FFE2B00A5290E /* PackageCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */; };
+		F89027371C3FFE2B00A5290E /* ClassCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E2E1C3DBBB800E12814 /* ClassCoverage.swift */; };
+		F89027381C3FFE2B00A5290E /* XMLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F890272F1C3F0C7800A5290E /* XMLExtensions.swift */; };
+		F89027391C3FFE2B00A5290E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80C21731C3C20CD00A4A237 /* main.swift */; };
+		F890273A1C3FFE2B00A5290E /* ProfdataToCobertura.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */; };
 		F8AE6E291C3DBB9900E12814 /* ProfdataToCoberturaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E281C3DBB9900E12814 /* ProfdataToCoberturaTests.swift */; };
-		F8AE6E2F1C3DBBB800E12814 /* FileCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E2E1C3DBBB800E12814 /* FileCoverage.swift */; };
+		F8AE6E2F1C3DBBB800E12814 /* ClassCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E2E1C3DBBB800E12814 /* ClassCoverage.swift */; };
 		F8AE6E311C3DBBBD00E12814 /* PackageCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */; };
 		F8AE6E331C3DBBC900E12814 /* ProfdataToCobertura.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */; };
 		F8AE6E351C3DBC8F00E12814 /* PackageCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E341C3DBC8F00E12814 /* PackageCoverageTests.swift */; };
 		F8AE6E371C3DBD2400E12814 /* FileCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E361C3DBD2400E12814 /* FileCoverageTests.swift */; };
-		F8AE6E3A1C3DC03100E12814 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80C21731C3C20CD00A4A237 /* main.swift */; };
-		F8AE6E3B1C3DC03100E12814 /* ProfdataToCobertura.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */; };
-		F8AE6E3C1C3DC03100E12814 /* PackageCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */; };
-		F8AE6E3D1C3DC03100E12814 /* FileCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AE6E2E1C3DBBB800E12814 /* FileCoverage.swift */; };
+		F8D398811C3EFF99006A50AF /* SummaryCoverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D398801C3EFF99006A50AF /* SummaryCoverage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,14 +49,20 @@
 /* Begin PBXFileReference section */
 		F80C21701C3C20CD00A4A237 /* ProfdataToCobertura */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProfdataToCobertura; sourceTree = BUILT_PRODUCTS_DIR; };
 		F80C21731C3C20CD00A4A237 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F890272F1C3F0C7800A5290E /* XMLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLExtensions.swift; sourceTree = "<group>"; };
+		F890273C1C4008EF00A5290E /* c2.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = c2.xml; sourceTree = "<group>"; };
+		F890273D1C4008EF00A5290E /* coverage-03.dtd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "coverage-03.dtd"; sourceTree = "<group>"; };
+		F890273E1C4008EF00A5290E /* output.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = output.xml; sourceTree = "<group>"; };
+		F890273F1C4008EF00A5290E /* small.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = small.xml; sourceTree = "<group>"; };
 		F8AE6E261C3DBB9900E12814 /* ProfdataToCoberturaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProfdataToCoberturaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AE6E281C3DBB9900E12814 /* ProfdataToCoberturaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfdataToCoberturaTests.swift; sourceTree = "<group>"; };
 		F8AE6E2A1C3DBB9900E12814 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F8AE6E2E1C3DBBB800E12814 /* FileCoverage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCoverage.swift; sourceTree = "<group>"; };
+		F8AE6E2E1C3DBBB800E12814 /* ClassCoverage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassCoverage.swift; sourceTree = "<group>"; };
 		F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageCoverage.swift; sourceTree = "<group>"; };
 		F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfdataToCobertura.swift; sourceTree = "<group>"; };
 		F8AE6E341C3DBC8F00E12814 /* PackageCoverageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageCoverageTests.swift; sourceTree = "<group>"; };
 		F8AE6E361C3DBD2400E12814 /* FileCoverageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCoverageTests.swift; sourceTree = "<group>"; };
+		F8D398801C3EFF99006A50AF /* SummaryCoverage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryCoverage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +86,7 @@
 		F80C21671C3C20CD00A4A237 = {
 			isa = PBXGroup;
 			children = (
+				F890273B1C4008EF00A5290E /* samples */,
 				F80C21721C3C20CD00A4A237 /* ProfdataToCobertura */,
 				F8AE6E271C3DBB9900E12814 /* ProfdataToCoberturaTests */,
 				F80C21711C3C20CD00A4A237 /* Products */,
@@ -94,12 +105,25 @@
 		F80C21721C3C20CD00A4A237 /* ProfdataToCobertura */ = {
 			isa = PBXGroup;
 			children = (
+				F8D398801C3EFF99006A50AF /* SummaryCoverage.swift */,
+				F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */,
+				F8AE6E2E1C3DBBB800E12814 /* ClassCoverage.swift */,
+				F890272F1C3F0C7800A5290E /* XMLExtensions.swift */,
 				F80C21731C3C20CD00A4A237 /* main.swift */,
 				F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */,
-				F8AE6E301C3DBBBD00E12814 /* PackageCoverage.swift */,
-				F8AE6E2E1C3DBBB800E12814 /* FileCoverage.swift */,
 			);
 			path = ProfdataToCobertura;
+			sourceTree = "<group>";
+		};
+		F890273B1C4008EF00A5290E /* samples */ = {
+			isa = PBXGroup;
+			children = (
+				F890273C1C4008EF00A5290E /* c2.xml */,
+				F890273D1C4008EF00A5290E /* coverage-03.dtd */,
+				F890273E1C4008EF00A5290E /* output.xml */,
+				F890273F1C4008EF00A5290E /* small.xml */,
+			);
+			path = samples;
 			sourceTree = "<group>";
 		};
 		F8AE6E271C3DBB9900E12814 /* ProfdataToCoberturaTests */ = {
@@ -203,8 +227,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8AE6E311C3DBBBD00E12814 /* PackageCoverage.swift in Sources */,
+				F89027301C3F0C7800A5290E /* XMLExtensions.swift in Sources */,
+				F8D398811C3EFF99006A50AF /* SummaryCoverage.swift in Sources */,
 				F80C21741C3C20CD00A4A237 /* main.swift in Sources */,
-				F8AE6E2F1C3DBBB800E12814 /* FileCoverage.swift in Sources */,
+				F8AE6E2F1C3DBBB800E12814 /* ClassCoverage.swift in Sources */,
 				F8AE6E331C3DBBC900E12814 /* ProfdataToCobertura.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,13 +239,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8AE6E3D1C3DC03100E12814 /* FileCoverage.swift in Sources */,
-				F8AE6E3C1C3DC03100E12814 /* PackageCoverage.swift in Sources */,
 				F8AE6E371C3DBD2400E12814 /* FileCoverageTests.swift in Sources */,
 				F8AE6E351C3DBC8F00E12814 /* PackageCoverageTests.swift in Sources */,
-				F8AE6E3A1C3DC03100E12814 /* main.swift in Sources */,
-				F8AE6E3B1C3DC03100E12814 /* ProfdataToCobertura.swift in Sources */,
+				F89027391C3FFE2B00A5290E /* main.swift in Sources */,
+				F89027351C3FFE2B00A5290E /* SummaryCoverage.swift in Sources */,
+				F89027361C3FFE2B00A5290E /* PackageCoverage.swift in Sources */,
+				F89027381C3FFE2B00A5290E /* XMLExtensions.swift in Sources */,
+				F89027371C3FFE2B00A5290E /* ClassCoverage.swift in Sources */,
 				F8AE6E291C3DBB9900E12814 /* ProfdataToCoberturaTests.swift in Sources */,
+				F890273A1C3FFE2B00A5290E /* ProfdataToCobertura.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
