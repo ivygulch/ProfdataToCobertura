@@ -120,6 +120,7 @@ class Runner {
         }
         let result = LLVMCovArguments(binaryPath:binaryPath, profdataPath:profdataPath, inputFilePath:inputFilePath, sourcePath:sourcePath, outputPath:outputPath, verbose:verbose)
         if verbose {
+            print("currentDirectory=\(NSFileManager.defaultManager().currentDirectoryPath)")
             print(result.description)
         }
         return result
