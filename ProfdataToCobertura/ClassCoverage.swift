@@ -17,6 +17,7 @@ func <(lhs: ClassCoverage, rhs: ClassCoverage) -> Bool {
 }
 
 class ClassCoverage: Comparable {
+    let verbose:Bool
     let path: String
     let pathComponents:[String]
     let filename:String?
@@ -31,7 +32,8 @@ class ClassCoverage: Comparable {
     var branchRate:Float { return 0.0 }
     var complexity:Float { return 0.0 }
 
-    init(path:String, lines:[String]) {
+    init(path:String, lines:[String], verbose:Bool) {
+        self.verbose = verbose
         self.path = path
         self.lines = lines
         var pathComponents = path.componentsSeparatedByString(ProfdataToCobertura.PathSeparator)
@@ -52,6 +54,7 @@ class ClassCoverage: Comparable {
     private var _lineHits:[(Int,Int)] = []
 
     private func processLines() {
+        var totalHits = 0
         _totalLineHitCount = 0
         _lineHits = []
         for lineIndex in 0..<lines.count {
@@ -59,9 +62,17 @@ class ClassCoverage: Comparable {
             let pieces = line.componentsSeparatedByString("|")
             let firstPiece = pieces[0].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if let hit = Int(firstPiece) {
+                totalHits += hit
                 _totalLineHitCount += (hit > 0) ? 1 : 0
                 _lineHits.append((lineIndex,hit))
             }
+        }
+        if verbose {
+            print("Class: \(path)")
+            let fn = filename ?? ""
+            print("\tfilename=\(fn)")
+            print("\tlines=\(lines.count), executable=\(_lineHits.count), hits=\(_totalLineHitCount), misses=\(_lineHits.count - _totalLineHitCount)")
+            print("\ttotal hits=\(totalHits)")
         }
     }
 

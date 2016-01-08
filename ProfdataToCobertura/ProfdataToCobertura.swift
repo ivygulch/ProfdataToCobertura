@@ -11,8 +11,20 @@ import Foundation
 struct LLVMCovArguments {
     let executablePath:String
     let profdataPath:String
-    var sourcePath:String?
-    var outputPath:String?
+    let sourcePath:String?
+    let outputPath:String?
+    let verbose:Bool
+
+    var description: String {
+        let sp = sourcePath ?? ""
+        let op = outputPath ?? ""
+        return "LLVMCovArguments"
+            + "\n\texecutablePath=\(executablePath)"
+            + "\n\tprofdataPath=\(profdataPath)"
+            + "\n\tsourcePath=\(sp)"
+            + "\n\toutputPath=\(op)"
+            + "\n\tverbose=\(verbose)"
+    }
 }
 
 enum Result<T> {
@@ -29,7 +41,7 @@ struct ProfdataToCobertura {
 class Runner {
 
     func showSyntax() {
-        print("ProfdataToCobertura <pathToAppBinary> <pathToProfdataFile> [-source <sourceRootPath>] [-output outputFilepath]")
+        print("ProfdataToCobertura <pathToAppBinary> <pathToProfdataFile> [-verbose] [-source <sourceRootPath>] [-output outputFilepath]")
         exit(1)
     }
 
@@ -39,6 +51,7 @@ class Runner {
         var profdataPath:String?
         var sourcePath:String?
         var outputPath:String?
+        var verbose = false
         var nextArg:((value:String)->Void)?
         var lastArg:String?
         var args = Process.arguments
@@ -61,6 +74,8 @@ class Runner {
                     anArg in
                     outputPath = anArg
                 }
+            } else if arg == "-verbose" {
+                verbose = true
             } else if executablePath == nil {
                 executablePath = arg
             } else if profdataPath == nil {
@@ -81,7 +96,7 @@ class Runner {
         }
         guard let executablePath2 = executablePath else { return nil }
         guard let profdataPath2 = profdataPath else { return nil }
-        return LLVMCovArguments(executablePath:executablePath2, profdataPath:profdataPath2, sourcePath:sourcePath, outputPath:outputPath)
+        return LLVMCovArguments(executablePath:executablePath2, profdataPath:profdataPath2, sourcePath:sourcePath, outputPath:outputPath, verbose:verbose)
     }
 
     func runLLVMCovWithArgs(args:LLVMCovArguments) -> Result<String> {
@@ -98,6 +113,11 @@ class Runner {
         let errorPipe = NSPipe()
         task.standardOutput = outputPipe
         task.standardError = errorPipe
+
+        if args.verbose {
+            print("\(args.description)")
+            print("xcrun \(task.arguments!.joinWithSeparator(" "))")
+        }
         task.launch()
 
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
@@ -110,6 +130,9 @@ class Runner {
 
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let outputString = NSString(data: outputData, encoding: NSUTF8StringEncoding) as! String
+        if args.verbose {
+            print("success with \(outputString.characters.count) of output")
+        }
         return Result.Success(outputString)
     }
 

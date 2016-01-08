@@ -12,20 +12,29 @@ extension String {
 
     func parseLLVMCovOutput(llvmCovArguments:LLVMCovArguments) -> SummaryCoverage {
         let groupedOutput = NSString(string:self).componentsSeparatedByString("\n/") as [NSString]
+        if llvmCovArguments.verbose {
+            print("Processing \(groupedOutput.count) separate files")
+        }
         var classes:[ClassCoverage] = []
         for group in groupedOutput {
             var groupLines = group.componentsSeparatedByString("\n") as [NSString]
             let first = groupLines[0]
             var path = (first.substringToIndex(1) == ProfdataToCobertura.PathSeparator) ? first as String : ProfdataToCobertura.PathSeparator + (first as String)
+            if llvmCovArguments.verbose {
+                print("Checking \(path)")
+            }
 
             if let sourcePath = llvmCovArguments.sourcePath {
                 if path.hasPrefix(sourcePath) {
+                    if llvmCovArguments.verbose {
+                        print("Processing \(path)")
+                    }
                     var startIndex = path.startIndex
                     startIndex = startIndex.advancedBy(sourcePath.startIndex.distanceTo(sourcePath.endIndex)+1)
                     path = path.substringWithRange(Range(start:startIndex, end:path.endIndex.predecessor()))
 
                     groupLines.removeAtIndex(0) // remove path
-                    classes.append(ClassCoverage(path:path, lines:groupLines as! [String]))
+                    classes.append(ClassCoverage(path:path, lines:groupLines as! [String], verbose:llvmCovArguments.verbose))
                 }
             }
         }
