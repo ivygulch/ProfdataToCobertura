@@ -21,13 +21,14 @@ class ClassCoverage: Comparable {
     let path: String
     let pathComponents:[String]
     let filename:String?
-    let lines: [String]
 
-    var lineCount:Int { return lines.count }
+    var lines:[String] { return _lines }
+    var rawLineCount:Int { return _lines.count }
+    var activeLineCount:Int { return lineHits.count }
     var totalLineHitCount:Int { return _totalLineHitCount }
     var lineHits:[(Int,Int)] { return _lineHits }
     var lineRate:Float {
-        return lineCount > 0 ? Float(totalLineHitCount) / Float(lineCount) : 0.0
+        return activeLineCount > 0 ? Float(totalLineHitCount) / Float(activeLineCount) : 0.0
     }
     var branchRate:Float { return 0.0 }
     var complexity:Float { return 0.0 }
@@ -35,7 +36,7 @@ class ClassCoverage: Comparable {
     init(path:String, lines:[String], verbose:Bool) {
         self.verbose = verbose
         self.path = path
-        self.lines = lines
+        _lines = lines
         var pathComponents = path.componentsSeparatedByString(ProfdataToCobertura.PathSeparator)
         if pathComponents.first == "" {
             pathComponents.removeFirst()
@@ -50,21 +51,50 @@ class ClassCoverage: Comparable {
         processLines()
     }
 
+    func merge(other:ClassCoverage) -> Bool {
+        if rawLineCount != other.rawLineCount {
+            return false
+        }
+        for index in 0..<rawLineCount {
+            let parsedLine = ParsedLine(_lines[index])
+            let parsedOtherLine = ParsedLine(other.lines[index])
+
+            let newHitCount = sum([parsedLine.hitCount,parsedOtherLine.hitCount])
+            _lines[index] = parsedLine.lineWithHitCount(newHitCount)
+
+        }
+        processLines()
+        return true
+    }
+
+    private func sum(values:[Int?]) -> Int? {
+        var result:Int?
+        for value in values {
+            if let value = value {
+                if result == nil {
+                    result = value
+                } else {
+                    result! += value
+                }
+            }
+        }
+        return result
+    }
+
     private var _totalLineHitCount = 0
+    private var _lines:[String] = []
     private var _lineHits:[(Int,Int)] = []
 
     private func processLines() {
         var totalHits = 0
         _totalLineHitCount = 0
         _lineHits = []
-        for lineIndex in 0..<lines.count {
-            let line = lines[lineIndex]
-            let pieces = line.componentsSeparatedByString("|")
-            let firstPiece = pieces[0].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            if let hit = Int(firstPiece) {
-                totalHits += hit
-                _totalLineHitCount += (hit > 0) ? 1 : 0
-                _lineHits.append((lineIndex,hit))
+        for lineIndex in 0..<_lines.count {
+            let parsedLine = ParsedLine(_lines[lineIndex])
+            if let hitCount = parsedLine.hitCount {
+                totalHits += hitCount
+                _totalLineHitCount += (hitCount > 0) ? 1 : 0
+                _lineHits.append((lineIndex,hitCount))
             }
         }
         if verbose {
@@ -78,7 +108,7 @@ class ClassCoverage: Comparable {
 
     func appendXML(classesElement:NSXMLElement) {
 
-// <class branch-rate="0.136363636364" complexity="0.0" filename="/Users/Shared/Jenkins/Home/jobs/ASDA/workspace/asda/main.m" line-rate="0.307692307692" name="main_m">
+        // <class branch-rate="0.136363636364" complexity="0.0" filename="/Users/Shared/Jenkins/Home/jobs/ASDA/workspace/asda/main.m" line-rate="0.307692307692" name="main_m">
 
         let classElement = classesElement.addChildElementWithName("class")
         classElement.addAttributeWithName("branch-rate", value: "\(branchRate)")
@@ -98,4 +128,32 @@ class ClassCoverage: Comparable {
         }
     }
 
+}
+
+private struct ParsedLine {
+    static let HitColumnWidth = 7
+    static let ColumnSeparator = "|"
+
+    let hitCountColumn:String
+    let hitCount:Int?
+    let lineNumberColumn:String
+    let lineNumber:Int
+    let codeLine:String
+
+    init(_ line:String) {
+        var pieces = line.componentsSeparatedByString(ParsedLine.ColumnSeparator)
+        hitCountColumn = (pieces.count > 0) ? pieces.removeFirst() : ""
+        lineNumberColumn = (pieces.count > 0) ? pieces.removeFirst() : ""
+
+        hitCount = Int(hitCountColumn.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()))
+        lineNumber = Int(lineNumberColumn.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())) ?? 0
+
+        codeLine = (pieces.count > 0) ? pieces.joinWithSeparator(ParsedLine.ColumnSeparator) : ""
+    }
+
+    func lineWithHitCount(newHitCount:Int?) -> String {
+        let newHitColumnStr = (newHitCount == nil) ? "" : "\(newHitCount!)"
+        let newHitCountColumn = newHitColumnStr.stringByPaddingToLength(ParsedLine.HitColumnWidth, withString: " ", startingAtIndex: 0)
+        return [newHitCountColumn,lineNumberColumn,codeLine].joinWithSeparator(ParsedLine.ColumnSeparator)
+    }
 }

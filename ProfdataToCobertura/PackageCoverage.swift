@@ -34,72 +34,32 @@ class PackageCoverage: Comparable {
         return pathComponents.joinWithSeparator(ProfdataToCobertura.PathSeparator)
     }
 
-    var lineCount:Int {
-        return classes.reduce(0) {$0 + $1.lineCount} +  packages.reduce(0) {$0 + $1.lineCount}
+    var activeLineCount:Int {
+        return classes.reduce(0) {$0 + $1.activeLineCount} +  packages.reduce(0) {$0 + $1.activeLineCount}
     }
     var totalLineHitCount:Int {
         return classes.reduce(0) {$0 + $1.totalLineHitCount} +  packages.reduce(0) {$0 + $1.totalLineHitCount}
     }
     var lineRate:Float {
-        return lineCount > 0 ? Float(totalLineHitCount) / Float(lineCount) : 0.0
+        return activeLineCount > 0 ? Float(totalLineHitCount) / Float(activeLineCount) : 0.0
     }
     var branchRate:Float { return 0.0 }
     var complexity:Float { return 0.0 }
 
     init(pathComponents:[String], classes:[ClassCoverage]) {
         self.pathComponents = pathComponents
-        self.classes = classes
-    }
 
-    class func toPackageTree(classes:[ClassCoverage]) -> PackageCoverage {
-        var flatPackages = PackageCoverage.toFlatPackages(classes)
-        if flatPackages.count == 0 {
-            return PackageCoverage(pathComponents: [], classes: []) // no classes
-        }
-
-        // insert any empty packages from root of "" to first package in list
-        while flatPackages[0].pathComponents != [] {
-            var parentPathComponents = flatPackages[0].pathComponents
-            parentPathComponents.removeLast()
-            flatPackages.insert(PackageCoverage(pathComponents:parentPathComponents, classes:[]), atIndex:0)
-        }
-
-        var rootPackage:PackageCoverage?
-
-        for package in flatPackages {
-            if let rootPackage = rootPackage {
-                rootPackage.insertChildInTree(package)
+        var result:[ClassCoverage] = []
+        var classXref:[String:ClassCoverage] = [:]
+        for originalClass in classes {
+            if let existingClass = classXref[originalClass.path] {
+                existingClass.merge(originalClass)
             } else {
-                rootPackage = package
+                result.append(originalClass)
+                classXref[originalClass.path] = originalClass
             }
         }
-
-        return rootPackage!
-    }
-
-    private func insertChildInTree(child:PackageCoverage) {
-        if pathComponents != [] {
-            print("Error: insertChildInTree only valid for root package")
-            return
-        }
-
-        var parentPathComponents = child.pathComponents
-        parentPathComponents.removeLast()
-
-        var currentPackage = self
-        var currentPathComponent:[String] = currentPackage.pathComponents
-        for pathComponent in parentPathComponents {
-            currentPathComponent.append(pathComponent)
-            let matchingChildren = currentPackage.packages.filter { $0.pathComponents == currentPathComponent }
-            if let package = matchingChildren.first {
-                currentPackage = package
-            } else {
-                let package = PackageCoverage(pathComponents:currentPathComponent, classes:[])
-                currentPackage.packages.append(package)
-                currentPackage = package
-            }
-        }
-        currentPackage.packages.append(child)
+        self.classes = result
     }
 
     class func toFlatPackages(classes:[ClassCoverage]) -> [PackageCoverage] {

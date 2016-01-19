@@ -68,7 +68,10 @@ class Runner {
         exit(1)
     }
 
-    func parseCommandLine() -> LLVMCovArguments? {
+    func parseCommandLineArgs(originalArgs:[String]) -> LLVMCovArguments? {
+        var args = originalArgs
+        args.removeFirst()
+
         var errors:[String] = []
         var binaryPath:String?
         var profdataPath:String?
@@ -78,8 +81,7 @@ class Runner {
         var verbose = false
         var nextArgs:[NextArgFunction] = []
         var lastArg:String?
-        var args = Process.arguments
-        args.removeFirst()
+
         for arg in args {
             if nextArgs.count > 0 {
                 if arg.hasPrefix("-") {
@@ -120,7 +122,7 @@ class Runner {
         }
         let result = LLVMCovArguments(binaryPath:binaryPath, profdataPath:profdataPath, inputFilePath:inputFilePath, sourcePath:sourcePath, outputPath:outputPath, verbose:verbose)
         if verbose {
-            print("currentDirectory=\(NSFileManager.defaultManager().currentDirectoryPath)")
+            print("Current directory=\(NSFileManager.defaultManager().currentDirectoryPath)")
             print(result.description)
         }
         return result
@@ -143,7 +145,7 @@ class Runner {
         task.standardError = errorPipe
 
         if verbose {
-            print("xcrun \(task.arguments!.joinWithSeparator(" "))")
+            print("Launch: xcrun \(task.arguments!.joinWithSeparator(" "))")
         }
         task.launch()
 
@@ -158,17 +160,17 @@ class Runner {
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let outputString = NSString(data: outputData, encoding: NSUTF8StringEncoding) as! String
         if verbose {
-            print("success with \(outputString.characters.count) of output")
+            print("Success with \(outputString.characters.count) of output")
         }
         return Result.Success(outputString)
     }
 
-    func getLLVMCovOutput() -> (String, LLVMCovArguments)? {
-        if let llvmCovArgs = parseCommandLine() {
+    func getLLVMCovOutputWithCommandLineArgs(args:[String]) -> (String, LLVMCovArguments)? {
+        if let llvmCovArgs = parseCommandLineArgs(args) {
 
             switch (llvmCovArgs.runMode) {
             case .Invalid:
-                showSyntax()
+                print("Invalid run mode")
             case .LLVMCov:
                 let result = runLLVMCovWithBinary(llvmCovArgs.binaryPath!, profdataPath: llvmCovArgs.profdataPath!, verbose: llvmCovArgs.verbose)
                 switch result {

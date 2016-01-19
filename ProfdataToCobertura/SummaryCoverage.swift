@@ -47,14 +47,14 @@ extension String {
 class SummaryCoverage {
     var packages:[PackageCoverage] = []
 
-    var lineCount:Int {
-        return packages.reduce(0) {$0 + $1.lineCount}
+    var activeLineCount:Int {
+        return packages.reduce(0) {$0 + $1.activeLineCount}
     }
     var totalLineHitCount:Int {
         return packages.reduce(0) {$0 + $1.totalLineHitCount}
     }
     var lineRate:Float {
-        return lineCount > 0 ? Float(totalLineHitCount) / Float(lineCount) : 0.0
+        return activeLineCount > 0 ? Float(totalLineHitCount) / Float(activeLineCount) : 0.0
     }
     var branchRate:Float { return 0.0 }
 

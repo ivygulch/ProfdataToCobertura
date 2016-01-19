@@ -18,82 +18,67 @@ class PackageCoverageTests: XCTestCase {
         XCTAssertEqual("", packageCoverage.path)
     }
 
-    func testFlatGroup() {
-        let fcA = ClassCoverage(path: "Filename.A", lines: [])
-        let fcB = ClassCoverage(path: "Filename.B", lines: [])
-        let fcC = ClassCoverage(path: "Filename.C", lines: [])
-        let classCoverages = [fcA, fcB, fcC]
-        let rootPackage = PackageCoverage.toPackageTree(classCoverages)
+    func testSimpleGroup() {
+        let ccA = ClassCoverage(path: "Filename.A", lines: [], verbose: false)
+        let ccB = ClassCoverage(path: "Filename.B", lines: [], verbose: false)
+        let ccC = ClassCoverage(path: "Filename.C", lines: [], verbose: false)
+        let classCoverages = [ccA, ccB, ccC]
+        let rootPackage = PackageCoverage(pathComponents: [], classes: classCoverages)
 
         XCTAssertEqual("", rootPackage.path)
         XCTAssertEqual([], rootPackage.pathComponents)
         XCTAssertEqual([], rootPackage.packages)
-        XCTAssertEqual([fcA,fcB,fcC], rootPackage.classes)
+        XCTAssertEqual([ccA,ccB,ccC], rootPackage.classes)
     }
 
-    func testSingleGroupWithPathComponents() {
-        let fcA = ClassCoverage(path: "/a/b/Filename.A", lines: [])
-        let fcB = ClassCoverage(path: "/a/b/Filename.B", lines: [])
-        let fcC = ClassCoverage(path: "/a/b/Filename.C", lines: [])
-        let classCoverages = [fcA, fcB, fcC]
-        let rootPackage = PackageCoverage.toPackageTree(classCoverages)
+    func testSimpleResultsRolledUpCounts() {
+        let linesA = [
+            "       |    1|line 1 neutral",
+            "      0|    2|line 2 not covered",
+            "      1|    3|line 3 covered 1",
+            "      2|    4|line 4 covered 2"
+        ]
+        let ccA = ClassCoverage(path:"/a", lines:linesA, verbose: false)
+        let linesB = [
+            "       |    1|line 1 neutral",
+            "      0|    2|line 2 not covered",
+            "      1|    3|line 3 covered 1",
+            "      0|    4|line 4 not covered"
+        ]
+        let ccB = ClassCoverage(path:"/b", lines:linesB, verbose: false)
 
-        XCTAssertEqual([], rootPackage.pathComponents)
-        XCTAssertEqual([], rootPackage.classes)
-        if rootPackage.packages.count != 1 {
-            XCTFail("Expected child package for 'a'")
-            return
-        }
-        let packageA = rootPackage.packages[0]
-
-        XCTAssertEqual(["a"], packageA.pathComponents)
-        XCTAssertEqual([], packageA.classes)
-        if packageA.packages.count != 1 {
-            XCTFail("Expected child package for 'b'")
-            return
-        }
-        let packageB = packageA.packages[0]
-
-        XCTAssertEqual(["a","b"], packageB.pathComponents)
-        XCTAssertEqual([], packageB.packages)
-        XCTAssertEqual([fcA,fcB,fcC], packageB.classes)
+        let package = PackageCoverage(pathComponents: [], classes: [ccA,ccB])
+        XCTAssertEqual(2,package.classes.count)
+        XCTAssertEqual(ccA.activeLineCount+ccB.activeLineCount, package.activeLineCount)
+        XCTAssertEqual(3, package.totalLineHitCount)
+        XCTAssertEqual(0.5, package.lineRate)
     }
 
-    func testMultipleGroupsWithPathComponents() {
-        let fcA = ClassCoverage(path: "Filename.A", lines: [])
-        let fcB = ClassCoverage(path: "/a/b/c/Filename.B", lines: [])
-        let fcC = ClassCoverage(path: "/d/Filename.C", lines: [])
-        let classCoverages = [fcA, fcB, fcC]
-        let rootPackage = PackageCoverage.toPackageTree(classCoverages)
+    func testMergedResultsRolledUpCounts() {
+        let linesA1 = [
+            "       |    1|line 1 neutral",
+            "      0|    2|line 2 not covered",
+            "      1|    3|line 3 covered 1"
+        ]
+        let ccA1 = ClassCoverage(path:"/a", lines:linesA1, verbose: false)
+        let linesA2 = [
+            "       |    1|line 1 neutral",
+            "      1|    2|line 2 not covered",
+            "      1|    3|line 3 covered 1"
+        ]
+        let ccA2 = ClassCoverage(path:"/a", lines:linesA2, verbose: false)
+        let linesB = [
+            "       |    1|line 1 neutral",
+            "      0|    2|line 2 not covered",
+            "      1|    3|line 3 covered 1"
+        ]
+        let ccB = ClassCoverage(path:"/b", lines:linesB, verbose: false)
 
-        XCTAssertEqual([], rootPackage.pathComponents)
-        XCTAssertEqual([fcA], rootPackage.classes)
-        if rootPackage.packages.count != 2 {
-            XCTFail("Expected child packages for 'a' & 'd'")
-            return
-        }
-        let packageA = rootPackage.packages[0]
-        let packageD = rootPackage.packages[1]
-
-        XCTAssertEqual(["a"], packageA.pathComponents)
-        XCTAssertEqual([], packageA.classes)
-        if packageA.packages.count != 1 {
-            XCTFail("Expected child package for 'b'")
-            return
-        }
-        let packageB = packageA.packages[0]
-
-        XCTAssertEqual(["a","b"], packageB.pathComponents)
-        XCTAssertEqual([], packageB.classes)
-        if packageB.packages.count != 1 {
-            XCTFail("Expected child package for 'c'")
-            return
-        }
-        let packageC = packageB.packages[0]
-
-        XCTAssertEqual(["d"], packageD.pathComponents)
-        XCTAssertEqual([], packageC.packages)
-        XCTAssertEqual([fcC], packageD.classes)
+        let package = PackageCoverage(pathComponents: [], classes: [ccA1,ccB,ccA2])
+        XCTAssertEqual(2,package.classes.count)
+        XCTAssertEqual(ccA1.activeLineCount+ccB.activeLineCount, package.activeLineCount)
+        XCTAssertEqual(3, package.totalLineHitCount)
+        XCTAssertEqual(0.75, package.lineRate)
     }
     
 }

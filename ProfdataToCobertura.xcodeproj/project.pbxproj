@@ -50,10 +50,6 @@
 		F80C21701C3C20CD00A4A237 /* ProfdataToCobertura */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProfdataToCobertura; sourceTree = BUILT_PRODUCTS_DIR; };
 		F80C21731C3C20CD00A4A237 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F890272F1C3F0C7800A5290E /* XMLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLExtensions.swift; sourceTree = "<group>"; };
-		F890273C1C4008EF00A5290E /* c2.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = c2.xml; sourceTree = "<group>"; };
-		F890273D1C4008EF00A5290E /* coverage-03.dtd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "coverage-03.dtd"; sourceTree = "<group>"; };
-		F890273E1C4008EF00A5290E /* output.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = output.xml; sourceTree = "<group>"; };
-		F890273F1C4008EF00A5290E /* small.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = small.xml; sourceTree = "<group>"; };
 		F8AE6E261C3DBB9900E12814 /* ProfdataToCoberturaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProfdataToCoberturaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AE6E281C3DBB9900E12814 /* ProfdataToCoberturaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfdataToCoberturaTests.swift; sourceTree = "<group>"; };
 		F8AE6E2A1C3DBB9900E12814 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,7 +82,6 @@
 		F80C21671C3C20CD00A4A237 = {
 			isa = PBXGroup;
 			children = (
-				F890273B1C4008EF00A5290E /* samples */,
 				F80C21721C3C20CD00A4A237 /* ProfdataToCobertura */,
 				F8AE6E271C3DBB9900E12814 /* ProfdataToCoberturaTests */,
 				F80C21711C3C20CD00A4A237 /* Products */,
@@ -113,17 +108,6 @@
 				F8AE6E321C3DBBC900E12814 /* ProfdataToCobertura.swift */,
 			);
 			path = ProfdataToCobertura;
-			sourceTree = "<group>";
-		};
-		F890273B1C4008EF00A5290E /* samples */ = {
-			isa = PBXGroup;
-			children = (
-				F890273C1C4008EF00A5290E /* c2.xml */,
-				F890273D1C4008EF00A5290E /* coverage-03.dtd */,
-				F890273E1C4008EF00A5290E /* output.xml */,
-				F890273F1C4008EF00A5290E /* small.xml */,
-			);
-			path = samples;
 			sourceTree = "<group>";
 		};
 		F8AE6E271C3DBB9900E12814 /* ProfdataToCoberturaTests */ = {
