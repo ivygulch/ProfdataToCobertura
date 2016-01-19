@@ -12,45 +12,45 @@ import XCTest
 class ClassCoverageTests: XCTestCase {
 
     func testMultipleRelativePathComponent() {
-        let classCoverage = ClassCoverage(path:"a/b/c", lines:[])
+        let classCoverage = ClassCoverage(path:"a/b/c", lines:[], verbose:false)
         XCTAssertEqual("a/b/c", classCoverage.path)
         XCTAssertEqual(["a","b"], classCoverage.pathComponents)
         XCTAssertEqual("c", classCoverage.filename)
     }
 
     func testMultipleFullPathComponent() {
-        let classCoverage = ClassCoverage(path:"/a/b/c", lines:[])
+        let classCoverage = ClassCoverage(path:"/a/b/c", lines:[], verbose:false)
         XCTAssertEqual("/a/b/c", classCoverage.path)
         XCTAssertEqual(["a","b"], classCoverage.pathComponents)
         XCTAssertEqual("c", classCoverage.filename)
     }
 
     func testSingleRelativePathComponent() {
-        let classCoverage = ClassCoverage(path:"a", lines:[])
+        let classCoverage = ClassCoverage(path:"a", lines:[], verbose:false)
         XCTAssertEqual("a", classCoverage.path)
         XCTAssertEqual([], classCoverage.pathComponents)
         XCTAssertEqual("a", classCoverage.filename)
     }
 
     func testSingleFullPathComponent() {
-        let classCoverage = ClassCoverage(path:"/a", lines:[])
+        let classCoverage = ClassCoverage(path:"/a", lines:[], verbose:false)
         XCTAssertEqual("/a", classCoverage.path)
         XCTAssertEqual([], classCoverage.pathComponents)
         XCTAssertEqual("a", classCoverage.filename)
     }
 
     func testEmptyPathComponent() {
-        let classCoverage = ClassCoverage(path:"", lines:[])
+        let classCoverage = ClassCoverage(path:"", lines:[], verbose:false)
         XCTAssertEqual([], classCoverage.pathComponents)
         XCTAssertNil(classCoverage.filename)
     }
 
     func testSort() {
-        let fc_a = ClassCoverage(path:"/a", lines:[])
-        let fc_a_b = ClassCoverage(path:"/a/b", lines:[])
-        let fc_a_b_c = ClassCoverage(path:"/a/b/c", lines:[])
-        let fc_d = ClassCoverage(path:"/d", lines:[])
-        let fc_d_e_f = ClassCoverage(path:"/d/e/f", lines:[])
+        let fc_a = ClassCoverage(path:"/a", lines:[], verbose:false)
+        let fc_a_b = ClassCoverage(path:"/a/b", lines:[], verbose:false)
+        let fc_a_b_c = ClassCoverage(path:"/a/b/c", lines:[], verbose:false)
+        let fc_d = ClassCoverage(path:"/d", lines:[], verbose:false)
+        let fc_d_e_f = ClassCoverage(path:"/d/e/f", lines:[], verbose:false)
         let classCoverages = [
             fc_d,
             fc_a_b,
