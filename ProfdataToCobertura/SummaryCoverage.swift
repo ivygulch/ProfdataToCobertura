@@ -30,7 +30,7 @@ extension String {
                         print("Processing \(path)")
                     }
                     var startIndex = path.startIndex
-                    startIndex = startIndex.advancedBy(sourcePath.startIndex.distanceTo(sourcePath.endIndex)+1)
+                    startIndex = startIndex.advancedBy(sourcePath.startIndex.distanceTo(sourcePath.endIndex))
                     path = path.substringWithRange(Range(start:startIndex, end:path.endIndex.predecessor()))
 
                     groupLines.removeAtIndex(0) // remove path
