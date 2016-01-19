@@ -19,9 +19,9 @@ class PackageCoverageTests: XCTestCase {
     }
 
     func testFlatGroup() {
-        let fcA = ClassCoverage(path: "Filename.A", lines: [])
-        let fcB = ClassCoverage(path: "Filename.B", lines: [])
-        let fcC = ClassCoverage(path: "Filename.C", lines: [])
+        let fcA = ClassCoverage(path: "Filename.A", lines: [], verbose:false)
+        let fcB = ClassCoverage(path: "Filename.B", lines: [], verbose:false)
+        let fcC = ClassCoverage(path: "Filename.C", lines: [], verbose:false)
         let classCoverages = [fcA, fcB, fcC]
         let rootPackage = PackageCoverage.toPackageTree(classCoverages)
 
@@ -32,9 +32,9 @@ class PackageCoverageTests: XCTestCase {
     }
 
     func testSingleGroupWithPathComponents() {
-        let fcA = ClassCoverage(path: "/a/b/Filename.A", lines: [])
-        let fcB = ClassCoverage(path: "/a/b/Filename.B", lines: [])
-        let fcC = ClassCoverage(path: "/a/b/Filename.C", lines: [])
+        let fcA = ClassCoverage(path: "/a/b/Filename.A", lines: [], verbose:false)
+        let fcB = ClassCoverage(path: "/a/b/Filename.B", lines: [], verbose:false)
+        let fcC = ClassCoverage(path: "/a/b/Filename.C", lines: [], verbose:false)
         let classCoverages = [fcA, fcB, fcC]
         let rootPackage = PackageCoverage.toPackageTree(classCoverages)
 
@@ -60,9 +60,9 @@ class PackageCoverageTests: XCTestCase {
     }
 
     func testMultipleGroupsWithPathComponents() {
-        let fcA = ClassCoverage(path: "Filename.A", lines: [])
-        let fcB = ClassCoverage(path: "/a/b/c/Filename.B", lines: [])
-        let fcC = ClassCoverage(path: "/d/Filename.C", lines: [])
+        let fcA = ClassCoverage(path: "Filename.A", lines: [], verbose:false)
+        let fcB = ClassCoverage(path: "/a/b/c/Filename.B", lines: [], verbose:false)
+        let fcC = ClassCoverage(path: "/d/Filename.C", lines: [], verbose:false)
         let classCoverages = [fcA, fcB, fcC]
         let rootPackage = PackageCoverage.toPackageTree(classCoverages)
 
